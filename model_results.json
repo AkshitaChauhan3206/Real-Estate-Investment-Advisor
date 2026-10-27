@@ -1,0 +1,343 @@
+{
+  "environment": {
+    "python": "3.12.3",
+    "sklearn": "1.8.0",
+    "pandas": "3.0.2",
+    "numpy": "2.4.4",
+    "mlflow": "not installed",
+    "random_state": 42
+  },
+  "features_used": [
+    "City",
+    "Property_Type",
+    "BHK",
+    "Size_in_SqFt",
+    "Furnished_Status",
+    "Floor_No",
+    "Total_Floors",
+    "Age_of_Property",
+    "Nearby_Schools",
+    "Nearby_Hospitals",
+    "Public_Transport_Accessibility",
+    "Parking_Space",
+    "Security",
+    "Facing",
+    "Owner_Type",
+    "Availability_Status",
+    "Has_Clubhouse",
+    "Has_Garden",
+    "Has_Gym",
+    "Has_Playground",
+    "Has_Pool",
+    "Amenity_Count",
+    "Sqft_per_BHK",
+    "Is_Ready",
+    "Infrastructure_Score",
+    "floor_invalid",
+    "size_bhk_mismatch",
+    "status_age_conflict",
+    "data_issue_count"
+  ],
+  "rows_train": 200000,
+  "rows_test": 50000,
+  "regression": {
+    "chosen_model": "Hist Gradient Boosting (tuned)",
+    "tuned_params": {
+      "m__min_samples_leaf": 100,
+      "m__max_leaf_nodes": 15,
+      "m__max_depth": 5,
+      "m__learning_rate": 0.03
+    },
+    "test": {
+      "rmse": 141.408,
+      "mae": 122.488,
+      "r2": -0.0002
+    },
+    "train_sample": {
+      "rmse": 140.827,
+      "mae": 121.715,
+      "r2": 0.0001
+    },
+    "baseline_test": {
+      "rmse": 141.398,
+      "mae": 122.48,
+      "r2": -0.0
+    },
+    "r2_95ci": [
+      -0.0004,
+      -0.0001
+    ],
+    "rmse_95ci": [
+      140.8707,
+      141.9719
+    ],
+    "unseen_city_test": {
+      "rmse": 140.959,
+      "mae": 122.181,
+      "r2": -0.0001
+    },
+    "is_reliable": false
+  },
+  "subgroups_reg": [
+    {
+      "task": "reg",
+      "group": "Property_Type",
+      "value": "Apartment",
+      "rows": 16648,
+      "mae_lakhs": 122.954
+    },
+    {
+      "task": "reg",
+      "group": "Property_Type",
+      "value": "Independent House",
+      "rows": 16382,
+      "mae_lakhs": 122.365
+    },
+    {
+      "task": "reg",
+      "group": "Property_Type",
+      "value": "Villa",
+      "rows": 16970,
+      "mae_lakhs": 122.15
+    },
+    {
+      "task": "reg",
+      "group": "Owner_Type",
+      "value": "Broker",
+      "rows": 16831,
+      "mae_lakhs": 122.813
+    },
+    {
+      "task": "reg",
+      "group": "Owner_Type",
+      "value": "Builder",
+      "rows": 16664,
+      "mae_lakhs": 121.766
+    },
+    {
+      "task": "reg",
+      "group": "Owner_Type",
+      "value": "Owner",
+      "rows": 16505,
+      "mae_lakhs": 122.886
+    },
+    {
+      "task": "reg",
+      "group": "Availability_Status",
+      "value": "Ready_to_Move",
+      "rows": 24945,
+      "mae_lakhs": 121.919
+    },
+    {
+      "task": "reg",
+      "group": "Availability_Status",
+      "value": "Under_Construction",
+      "rows": 25055,
+      "mae_lakhs": 123.055
+    },
+    {
+      "task": "reg",
+      "group": "Furnished_Status",
+      "value": "Furnished",
+      "rows": 16613,
+      "mae_lakhs": 123.236
+    },
+    {
+      "task": "reg",
+      "group": "Furnished_Status",
+      "value": "Semi-furnished",
+      "rows": 16885,
+      "mae_lakhs": 121.465
+    },
+    {
+      "task": "reg",
+      "group": "Furnished_Status",
+      "value": "Unfurnished",
+      "rows": 16502,
+      "mae_lakhs": 122.781
+    },
+    {
+      "task": "reg",
+      "group": "Public_Transport_Accessibility",
+      "value": "High",
+      "rows": 16722,
+      "mae_lakhs": 122.697
+    },
+    {
+      "task": "reg",
+      "group": "Public_Transport_Accessibility",
+      "value": "Low",
+      "rows": 16679,
+      "mae_lakhs": 121.545
+    },
+    {
+      "task": "reg",
+      "group": "Public_Transport_Accessibility",
+      "value": "Medium",
+      "rows": 16599,
+      "mae_lakhs": 123.226
+    }
+  ],
+  "classification": {
+    "chosen_model": "Hist Gradient Boosting (tuned)",
+    "tuned_params": {
+      "m__min_samples_leaf": 100,
+      "m__max_leaf_nodes": 31,
+      "m__max_depth": null,
+      "m__learning_rate": 0.03
+    },
+    "test": {
+      "accuracy": 0.7714,
+      "precision": 0.7471,
+      "recall": 0.7336,
+      "f1": 0.7403,
+      "roc_auc": 0.8586
+    },
+    "train_sample": {
+      "accuracy": 0.7749,
+      "precision": 0.7438,
+      "recall": 0.7425,
+      "f1": 0.7432,
+      "roc_auc": 0.862
+    },
+    "baseline_test_accuracy": 0.5559,
+    "accuracy_95ci": [
+      0.7678,
+      0.7748
+    ],
+    "confusion_matrix": [
+      [
+        22282,
+        5513
+      ],
+      [
+        5916,
+        16289
+      ]
+    ],
+    "unseen_city_test": {
+      "accuracy": 0.7698,
+      "precision": 0.7452,
+      "recall": 0.7365,
+      "f1": 0.7408,
+      "roc_auc": 0.8575
+    }
+  },
+  "subgroups_clf": [
+    {
+      "task": "clf",
+      "group": "Property_Type",
+      "value": "Apartment",
+      "rows": 16648,
+      "accuracy": 0.774
+    },
+    {
+      "task": "clf",
+      "group": "Property_Type",
+      "value": "Independent House",
+      "rows": 16382,
+      "accuracy": 0.773
+    },
+    {
+      "task": "clf",
+      "group": "Property_Type",
+      "value": "Villa",
+      "rows": 16970,
+      "accuracy": 0.767
+    },
+    {
+      "task": "clf",
+      "group": "Owner_Type",
+      "value": "Broker",
+      "rows": 16831,
+      "accuracy": 0.771
+    },
+    {
+      "task": "clf",
+      "group": "Owner_Type",
+      "value": "Builder",
+      "rows": 16664,
+      "accuracy": 0.778
+    },
+    {
+      "task": "clf",
+      "group": "Owner_Type",
+      "value": "Owner",
+      "rows": 16505,
+      "accuracy": 0.765
+    },
+    {
+      "task": "clf",
+      "group": "Availability_Status",
+      "value": "Ready_to_Move",
+      "rows": 24945,
+      "accuracy": 0.743
+    },
+    {
+      "task": "clf",
+      "group": "Availability_Status",
+      "value": "Under_Construction",
+      "rows": 25055,
+      "accuracy": 0.8
+    },
+    {
+      "task": "clf",
+      "group": "Furnished_Status",
+      "value": "Furnished",
+      "rows": 16613,
+      "accuracy": 0.771
+    },
+    {
+      "task": "clf",
+      "group": "Furnished_Status",
+      "value": "Semi-furnished",
+      "rows": 16885,
+      "accuracy": 0.775
+    },
+    {
+      "task": "clf",
+      "group": "Furnished_Status",
+      "value": "Unfurnished",
+      "rows": 16502,
+      "accuracy": 0.768
+    },
+    {
+      "task": "clf",
+      "group": "Public_Transport_Accessibility",
+      "value": "High",
+      "rows": 16722,
+      "accuracy": 0.745
+    },
+    {
+      "task": "clf",
+      "group": "Public_Transport_Accessibility",
+      "value": "Low",
+      "rows": 16679,
+      "accuracy": 0.8
+    },
+    {
+      "task": "clf",
+      "group": "Public_Transport_Accessibility",
+      "value": "Medium",
+      "rows": 16599,
+      "accuracy": 0.77
+    }
+  ],
+  "signal_test_price": {
+    "accuracy": 0.4994,
+    "precision": 0.5016,
+    "recall": 0.3422,
+    "f1": 0.4068,
+    "roc_auc": 0.4998,
+    "baseline_accuracy": 0.5018
+  },
+  "signal_test_ppsf": {
+    "accuracy": 0.7118,
+    "precision": 0.7053,
+    "recall": 0.7314,
+    "f1": 0.7181,
+    "roc_auc": 0.7823,
+    "baseline_accuracy": 0.5019
+  },
+  "runtime_minutes": 2.2
+}

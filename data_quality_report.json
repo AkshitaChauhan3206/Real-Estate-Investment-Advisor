@@ -1,0 +1,14 @@
+{
+  "rows_raw": 250000,
+  "rows_clean": 250000,
+  "missing_values_raw": 0,
+  "duplicate_rows_raw": 0,
+  "duplicate_ids_raw": 0,
+  "floor_no_above_total_floors_pct": 46.5,
+  "size_not_matching_bhk_pct": 33.4,
+  "under_construction_but_old_pct_of_uc": 97.0,
+  "ppsf_outlier_pct": 7.89,
+  "price_outlier_pct": 0.0,
+  "rows_with_any_issue_pct": 81.6,
+  "good_investment_share_pct": 44.4
+}
