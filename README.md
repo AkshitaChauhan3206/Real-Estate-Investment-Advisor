@@ -7,7 +7,8 @@ All files are in this one folder. Do not move them into sub-folders.
 | streamlit_app.py | The dashboard (main file) |
 | config.py | File paths and settings |
 | predict.py | Score, price check, 5-year scenario and data-warning functions |
-| housing_clean.csv.gz | Cleaned listings (250,000 rows) |
+| housing_clean.csv.gz | Cleaned listings, all 250,000 rows, 17 columns (5.4 MB) |
+| housing_clean_sample_60k.csv.gz | Backup: random sample of 60,000 listings (1.4 MB). Used only if the full file is missing |
 | investment_model.joblib | Good Investment model |
 | price_model.joblib | Price model (shown only to prove it is no better than the average) |
 | app_schema.json | Dropdown choices and the model input list |
@@ -25,7 +26,7 @@ All files are in this one folder. Do not move them into sub-folders.
 4. Run `pip install -r requirements.txt`
 5. Run `streamlit run streamlit_app.py`
 
-The first load takes a few seconds because it reads 250,000 rows. After that it is cached.
+The first load takes a few seconds. After that it is cached.
 
 ## Deploy on Streamlit Community Cloud
 
@@ -34,6 +35,14 @@ The first load takes a few seconds because it reads 250,000 rows. After that it 
 3. Main file path: `streamlit_app.py`
 4. Advanced settings: choose Python 3.12.
 5. Deploy.
+
+## If a file is too large for GitHub
+
+The full data file is 5.4 MB, which GitHub accepts. If you still cannot upload it, skip it and upload only `housing_clean_sample_60k.csv.gz`. The app then uses the 60,000-row sample and says so in the sidebar. Numbers will differ slightly from the report.
+
+## If you see "Data file not found"
+
+A data file did not get uploaded. Check that the repository's main folder contains one of the two `.csv.gz` files.
 
 ## If the models do not load
 

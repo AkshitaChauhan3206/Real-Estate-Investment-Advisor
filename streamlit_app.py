@@ -8,7 +8,7 @@ import streamlit as st
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
-from config import CLEAN_FILE, FORECAST_YEARS, GOOD_INVESTMENT_THRESHOLD, GROWTH_SCENARIOS
+from config import CLEAN_FILE, FORECAST_YEARS, GOOD_INVESTMENT_THRESHOLD, GROWTH_SCENARIOS, USING_SAMPLE
 from predict import build_row, data_warnings, future_table, load_assets, score_breakdown, value_check
 
 INDIGO, GOLD, TEAL, BRICK, INK, MUTED = "#2B3A8C", "#F2A900", "#1B998B", "#C8553D", "#1B2236", "#5B6577"
@@ -45,7 +45,7 @@ USE_COLS = ["ID", "State", "City", "Property_Type", "BHK", "Size_in_SqFt", "Pric
             "Infrastructure_Score", "data_issue_count", "Owner_Type"]
 
 
-@st.cache_data(show_spinner="Loading 250,000 listings...")
+@st.cache_data(show_spinner="Loading listings...")
 def load_data():
     return pd.read_csv(CLEAN_FILE, usecols=USE_COLS)
 
@@ -73,13 +73,16 @@ def lakhs(x):
     return f"{x:,.1f} lakh" if x < 100 else f"{x / 100:,.2f} crore"
 
 
+if not CLEAN_FILE.exists():
+    st.error("Data file not found. Upload housing_clean.csv.gz (or housing_clean_sample_60k.csv.gz) to the same folder as streamlit_app.py.")
+    st.stop()
 data, assets = load_data(), get_assets()
 schema, results, quality = assets["schema"], assets["results"], assets["quality"]
 
 st.sidebar.markdown("## Property Investment Advisor")
 page = st.sidebar.radio("Go to", ["Market overview", "Find properties", "Check a property", "How far can we trust this?"])
 st.sidebar.markdown("---")
-st.sidebar.caption("Data: india_housing_prices.csv, 250,000 listings, 42 cities.")
+st.sidebar.caption(f"Data: india_housing_prices.csv, {len(data):,} listings" + (" (random sample)" if USING_SAMPLE else "") + ", 42 cities.")
 
 
 def filters(df):
