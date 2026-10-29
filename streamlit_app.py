@@ -35,6 +35,18 @@ section[data-testid="stSidebar"] * {{ color: #E8ECF4 !important; }}
 .verdict h2 {{ margin: 0 0 4px 0; }}
 .caution {{ background: #FFF6DD; border-left: 5px solid {GOLD}; padding: 10px 14px; border-radius: 4px; margin: 10px 0; }}
 .warn {{ background: #FBE9E4; border-left: 5px solid {BRICK}; padding: 10px 14px; border-radius: 4px; margin: 10px 0; }}
+[data-testid="stMain"], [data-testid="stMain"] h1, [data-testid="stMain"] h2, [data-testid="stMain"] h3, [data-testid="stMain"] p,
+[data-testid="stMain"] li, [data-testid="stMain"] label, [data-testid="stMain"] span, [data-testid="stMain"] summary {{ color: {INK}; }}
+[data-testid="stMain"] [data-testid="stCaptionContainer"] * {{ color: {MUTED}; }}
+[data-testid="stMain"] [data-baseweb="select"] > div, [data-testid="stMain"] [data-baseweb="input"] > div, [data-testid="stMain"] input {{ background: #FFFFFF; color: {INK}; }}
+[data-testid="stMain"] [data-baseweb="select"] *, [data-testid="stMain"] [data-baseweb="input"] * {{ color: {INK}; }}
+[data-testid^="stBaseButton-primary"], button[kind="primaryFormSubmit"], button[kind="primary"] {{ background: {INDIGO}; border-color: {INDIGO}; }}
+[data-testid^="stBaseButton-primary"] *, button[kind="primaryFormSubmit"] *, button[kind="primary"] * {{ color: #FFFFFF; }}
+.hero h1 {{ color: {INK}; }}
+.hero p {{ color: {MUTED}; }}
+.kpi .value {{ color: {INK}; }}
+.kpi .label, .kpi .note {{ color: {MUTED}; }}
+.verdict, .verdict *, .caution, .caution *, .warn, .warn * {{ color: {INK}; }}
 </style>
 """,
     unsafe_allow_html=True,
@@ -64,8 +76,10 @@ def kpi(label, value, note=""):
 
 
 def style(fig, height=380):
-    fig.update_layout(height=height, margin=dict(l=10, r=10, t=50, b=10), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#FFFFFF",
-                      font=dict(family="Source Sans 3, Segoe UI, sans-serif", color=INK), title_font=dict(size=16))
+    fig.update_layout(template="plotly_white", height=height, margin=dict(l=10, r=10, t=50, b=10), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#FFFFFF",
+                      font=dict(family="Source Sans 3, Segoe UI, sans-serif", color=INK), title_font=dict(size=16, color=INK))
+    fig.update_xaxes(color=INK, gridcolor="#E3E7EC", title_font=dict(color=INK), tickfont=dict(color=INK))
+    fig.update_yaxes(color=INK, gridcolor="#E3E7EC", title_font=dict(color=INK), tickfont=dict(color=INK))
     return fig
 
 
@@ -131,16 +145,16 @@ if page == "Market overview":
     left, right = st.columns(2)
     city = view.groupby("City")["Price_per_SqFt_INR"].median().sort_values().reset_index()
     fig = px.bar(city.tail(15), x="Price_per_SqFt_INR", y="City", orientation="h", title="Top 15 cities by median price per sq ft", color_discrete_sequence=[INDIGO])
-    left.plotly_chart(style(fig), use_container_width=True)
+    left.plotly_chart(style(fig), use_container_width=True, theme=None)
     fig = px.histogram(view, x="Price_in_Lakhs", nbins=40, title="Price spread (lakhs)", color_discrete_sequence=[GOLD])
-    right.plotly_chart(style(fig), use_container_width=True)
+    right.plotly_chart(style(fig), use_container_width=True, theme=None)
     left, right = st.columns(2)
     sample = view.sample(min(len(view), 15000), random_state=42)
     fig = px.scatter(sample, x="Size_in_SqFt", y="Price_in_Lakhs", opacity=0.25, title="Size vs price (sample)", color_discrete_sequence=[INDIGO])
-    left.plotly_chart(style(fig), use_container_width=True)
+    left.plotly_chart(style(fig), use_container_width=True, theme=None)
     rate = view.groupby("Property_Type")["Good_Investment"].mean().mul(100).reset_index()
     fig = px.bar(rate, x="Property_Type", y="Good_Investment", title="Share passing the checklist, by property type (%)", color_discrete_sequence=[TEAL])
-    right.plotly_chart(style(fig), use_container_width=True)
+    right.plotly_chart(style(fig), use_container_width=True, theme=None)
     st.markdown('<div class="caution"><b>Read this first.</b> Prices in this file barely change with size, city, type or amenities. '
                 'Differences you see between cities are mostly chance. Use the charts to explore, not to rank places. See the last page.</div>', unsafe_allow_html=True)
 
@@ -201,7 +215,7 @@ elif page == "Check a property":
         a, b = st.columns(2)
         pts = pd.DataFrame({"Item": list(parts.keys()), "Points": list(parts.values())})
         fig = px.bar(pts, x="Points", y="Item", orientation="h", title="Where the points come from", color_discrete_sequence=[INDIGO])
-        a.plotly_chart(style(fig, 340), use_container_width=True)
+        a.plotly_chart(style(fig, 340), use_container_width=True, theme=None)
         diff = (check["ratio"] - 1) * 100
         word = "below" if diff < 0 else "above"
         b.markdown(f"### Price check\nThis property costs **Rs {check['ppsf']:,.0f}** per sq ft. The median in {city} is **Rs {check['city_median']:,.0f}**, "
@@ -221,7 +235,7 @@ elif page == "Check a property":
             fig.add_trace(go.Scatter(x=years, y=[price * (1 + rate) ** y for y in years], mode="lines+markers", name=name, line=dict(color=colour, width=3)))
         fig.update_layout(title="Price path for each growth scenario", xaxis_title="Years from today", yaxis_title="Lakhs")
         a, b = st.columns([1.2, 1])
-        a.plotly_chart(style(fig, 340), use_container_width=True)
+        a.plotly_chart(style(fig, 340), use_container_width=True, theme=None)
         table = pd.DataFrame({"Scenario": list(fut.keys()), f"Price in {FORECAST_YEARS} years": [lakhs(v) for v in fut.values()], "Gain": [lakhs(v - price) for v in fut.values()]})
         b.dataframe(table, hide_index=True, use_container_width=True)
         st.markdown('<div class="caution">The growth rates are scenarios chosen by us. The file has no price history, so no model can learn real growth from it. '
@@ -256,7 +270,7 @@ else:
     imp = pd.read_csv(ROOT / "feature_importance.csv")
     top = imp[imp["task"] == "good_investment"].nlargest(8, "importance").iloc[::-1]
     fig = px.bar(top, x="importance", y="feature", orientation="h", title="What the checklist model uses most", color_discrete_sequence=[INDIGO])
-    right.plotly_chart(style(fig, 330), use_container_width=True)
+    right.plotly_chart(style(fig, 330), use_container_width=True, theme=None)
     st.markdown("### Limits you should tell the owner")
     st.markdown(
         "- **Prices look random.** Size, city, type, furnishing and amenities explain almost none of the price. Rankings of cities or localities are noise.\n"

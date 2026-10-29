@@ -44,6 +44,19 @@ If you see "Data files not found", the app also prints the list of files it can 
 
 Use the zip file to get the files. Some browsers silently unpack single downloaded `.gz` files, which is why this version uses plain `.csv` files.
 
+## Colours in dark mode (optional but recommended)
+
+The dashboard is designed for a light page. The app now sets its own text and chart colours, so it stays readable when your browser or computer is in dark mode. To lock the light theme completely, create one extra file in your GitHub repository. Click "Add file", then "Create new file", type `.streamlit/config.toml` as the name (typing the slash makes the folder), and paste this:
+
+```
+[theme]
+base = "light"
+primaryColor = "#2B3A8C"
+backgroundColor = "#F4F6F8"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1B2236"
+```
+
 ## If the models do not load
 
 The models were trained with scikit-learn 1.8.0, which is pinned in requirements.txt. If you change that version, retrain in the full project and replace the two .joblib files.
