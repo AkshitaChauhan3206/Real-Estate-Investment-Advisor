@@ -1,10 +1,11 @@
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-FULL_FILE = ROOT / "housing_clean.csv.gz"
-SAMPLE_FILE = ROOT / "housing_clean_sample_60k.csv.gz"
-CLEAN_FILE = FULL_FILE if FULL_FILE.exists() else SAMPLE_FILE
-USING_SAMPLE = CLEAN_FILE == SAMPLE_FILE
+EXPECTED_PARTS = 4
+PARTS = sorted(ROOT.glob("housing_part_*.csv"))
+SAMPLE_FILE = ROOT / "housing_sample_60k.csv"
+USING_SAMPLE = len(PARTS) == 0
+DATA_FILES = PARTS if PARTS else ([SAMPLE_FILE] if SAMPLE_FILE.exists() else [])
 MODEL_DIR = ROOT
 REPORT_DIR = ROOT
 

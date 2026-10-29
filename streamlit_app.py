@@ -8,7 +8,7 @@ import streamlit as st
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
-from config import CLEAN_FILE, FORECAST_YEARS, GOOD_INVESTMENT_THRESHOLD, GROWTH_SCENARIOS, USING_SAMPLE
+from config import DATA_FILES, EXPECTED_PARTS, FORECAST_YEARS, GOOD_INVESTMENT_THRESHOLD, GROWTH_SCENARIOS, PARTS, USING_SAMPLE
 from predict import build_row, data_warnings, future_table, load_assets, score_breakdown, value_check
 
 INDIGO, GOLD, TEAL, BRICK, INK, MUTED = "#2B3A8C", "#F2A900", "#1B998B", "#C8553D", "#1B2236", "#5B6577"
@@ -47,7 +47,7 @@ USE_COLS = ["ID", "State", "City", "Property_Type", "BHK", "Size_in_SqFt", "Pric
 
 @st.cache_data(show_spinner="Loading listings...")
 def load_data():
-    return pd.read_csv(CLEAN_FILE, usecols=USE_COLS)
+    return pd.concat([pd.read_csv(f, usecols=USE_COLS) for f in DATA_FILES], ignore_index=True)
 
 
 @st.cache_resource(show_spinner="Loading models...")
@@ -73,8 +73,13 @@ def lakhs(x):
     return f"{x:,.1f} lakh" if x < 100 else f"{x / 100:,.2f} crore"
 
 
-if not CLEAN_FILE.exists():
-    st.error("Data file not found. Upload housing_clean.csv.gz (or housing_clean_sample_60k.csv.gz) to the same folder as streamlit_app.py.")
+if not DATA_FILES:
+    st.error("Data files not found. Upload housing_part_1.csv to housing_part_4.csv (or housing_sample_60k.csv) to the same folder as streamlit_app.py.")
+    st.write("Files this app can see in its folder:", sorted(p.name for p in ROOT.iterdir()))
+    st.stop()
+if PARTS and len(PARTS) != EXPECTED_PARTS:
+    st.error(f"Found {len(PARTS)} of {EXPECTED_PARTS} data parts. Upload all housing_part_1.csv to housing_part_4.csv.")
+    st.write("Files this app can see in its folder:", sorted(p.name for p in ROOT.iterdir()))
     st.stop()
 data, assets = load_data(), get_assets()
 schema, results, quality = assets["schema"], assets["results"], assets["quality"]
