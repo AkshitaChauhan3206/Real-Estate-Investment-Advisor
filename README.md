@@ -12,11 +12,24 @@ All files are in this one folder. Do not move them into sub-folders.
 | investment_model.joblib | Good Investment model |
 | price_model.joblib | Price model (shown only to prove it is no better than the average) |
 | app_schema.json | Dropdown choices and the model input list |
+| insights.json | All precomputed analysis numbers: signal tests, shuffle test, locality stability, size bands, pass rates, model comparison tables |
 | model_results.json | Model numbers shown in the app |
 | city_medians.json | Median price per sq ft for each city |
 | data_quality_report.json | Data-problem numbers |
 | feature_importance.csv | Data for the "what the model uses most" chart |
 | requirements.txt | Libraries to install |
+
+## The seven pages
+
+| Page | What it shows |
+|---|---|
+| Executive summary | Headline numbers, 8 key insights, three evidence charts, ranked next steps |
+| Market explorer | Filterable prices, size vs price, market mix and a city table with ranges |
+| Data health | Impossible details, problem rates by property type, example rows, questions for the data owner |
+| Is there a signal? | Every column tested against price, shuffle test, ranking stability, size trap, group differences |
+| Investment checklist | How the score works, pass mark selector, who passes, clean shortlist with download |
+| Property check | Score, price check against the city and against similar sizes, 5-year scenarios |
+| Model report | Models vs a simple guess, confusion matrix, group accuracy, feature importance, limits and run plan |
 
 ## Run on your computer
 
